@@ -1,0 +1,45 @@
+.title {
+	text-align: center;
+	h1 {
+		display: inline-block;
+		position: relative;
+		font-weight: bold;
+		font-size: 52px;
+		text-transform: uppercase;
+		margin: 0;
+	}
+	h1:before {
+		background: rgba(255, 255, 255, 0.4);
+		position: absolute;
+		transform: rotate(2deg);
+		left: -10px;
+		top: 45%;
+	 	z-index: -1;  /* to be below the parent element */
+		width: calc(100% + 20px);
+		height: 50%;
+		content: ' ';
+	}
+}
+
+.subtitle {
+	text-align: center;
+	h2 {
+		display: inline-block;
+		position: relative;
+		font-weight: 400;
+		font-size: 32px;
+		text-transform: uppercase;
+		margin: 0 0 10px;
+	}
+	h2:before {
+		background: rgba(255, 255, 255, 0.4);
+		position: absolute;
+		transform: rotate(-1deg);
+		left: -10px;
+		top: 45%;
+	 	z-index: -1;  /* to be below the parent element */
+		width: calc(100% + 20px);
+		height: 70%;
+		content: ' ';
+	}
+}

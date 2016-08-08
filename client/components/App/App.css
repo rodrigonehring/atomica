@@ -1,0 +1,25 @@
+html {
+  font-family: sans-serif;
+}
+
+body {
+	background: #ffc952;
+	max-height: 100vh;
+	overflow: hidden;
+	font-family: 'Raleway', sans-serif;
+}
+
+.root {
+  color: #222;
+}
+
+.content {
+	height: calc(100vh - 115px);
+	position: absolute;
+	top: 15px;
+	margin-left: 15px;
+	// border: 2px solid #1f1a17;
+	width: calc(100vw - 335px);
+	display: inline-block;
+}
+
