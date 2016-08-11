@@ -20,17 +20,11 @@ Post.propTypes = {
   title: PropTypes.string
 }
 
-const news = [
-  {slug: 'oalr1', img: 'http://lorempixel.com/300/300/nightlife/4', title: 'Nome da noticia' },
-  {slug: 'oalr2', img: 'http://lorempixel.com/300/300/nightlife/5', title: 'Nome da noticia' },
-  {slug: 'oalr3', img: 'http://lorempixel.com/300/300/nightlife/6', title: 'Nome da noticia' },
-];
-
-const News = () => (
+const News = ({news}) => (
   <div className={style.news}>
   	<ul>
 
-      {news.map(item => 
+      {news.map(item =>
         <Post
           key={item.slug}
           slug={item.slug}
@@ -51,5 +45,9 @@ const News = () => (
 
   </div>
 );
+
+News.propTypes = {
+  news: PropTypes.array
+};
 
 export default News;

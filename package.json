@@ -2,15 +2,20 @@
   "name": "react-starter",
   "version": "0.0.0",
   "private": true,
+  "engines" : {
+    "node": "6.x"
+  },
   "scripts": {
     "build": "webpack -c --progress",
     "lint": "eslint --ignore-path .gitignore .",
     "prebuild": "rm -rf build/*",
     "prestart": "npm run build",
-    "start": "NODE_ENV=production node server",
+    "start": "NODE_ENV=production sudo forever start server",
+    "stop": "sudo forever stopall",
     "start-dev": "nodemon server -w server",
     "test": "NODE_ENV=test mocha",
-    "test-watch": "NODE_ENV=test mocha -R min -w"
+    "test-watch": "NODE_ENV=test mocha -R min -w",
+    "deploy": "git add . && git commit --amend -C HEAD && git push origin master -f"
   },
   "devDependencies": {
     "eslint": "3.2.2",

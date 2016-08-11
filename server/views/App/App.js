@@ -15,7 +15,7 @@ const App = ({assets, content, head, initialState}) => (
     <body>
       <div dangerouslySetInnerHTML={{__html: content}} id='root' />
       <script dangerouslySetInnerHTML={{__html: `window.__INITIAL_STATE__ = ${JSON.stringify(initialState)}`}} />
-      <script src={assets.main.js} />
+      <script src={assets.main.js} defer="true" />
     </body>
   </html>
 );

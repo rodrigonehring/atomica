@@ -5,7 +5,8 @@ import nested from 'postcss-nested';
 import path from 'path';
 import webpack from 'webpack';
 
-const DEBUG = process.env.NODE_ENV !== 'production';
+let DEBUG = process.env.NODE_ENV !== 'production';
+DEBUG = false;
 
 export default {
   entry: DEBUG ? [

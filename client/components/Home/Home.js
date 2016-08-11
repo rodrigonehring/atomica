@@ -1,10 +1,12 @@
-import React from 'react';
+import React, {PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import News from '../news/news';
+import {connect} from 'react-redux';
 
 import style from './home.css';
 
-const Home = () => (
+const Home = ({news}) => {
+    return (
   <div>
     <Helmet title='Home' />
     <div className={style.title}>
@@ -14,9 +16,17 @@ const Home = () => (
     	<h2>CONFIRA NOVIDADES DO MUNDO DA MÚSICA</h2>
     </div>
     <div className={style.newsBox}>
-    	<News />
+    	<News news={news} />
     </div>
   </div>
-);
+)};
 
-export default Home;
+Home.propTypes = {
+  news: PropTypes.array
+};
+
+const mapStateToProps = ({appState, news}) => ({
+  news: news.news
+});
+
+export default connect(mapStateToProps)(Home);
