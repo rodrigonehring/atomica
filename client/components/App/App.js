@@ -4,6 +4,7 @@ import {Link} from 'react-router';
 import {connect} from 'react-redux';
 
 import SidebarLeft from '../SidebarLeft/Sidebar';
+import Player from '../player/player';
 
 import style from './App.css';
 
@@ -15,6 +16,7 @@ export const App = ({children, loading}) => (
     	{loading && 'Loading...'}
     	{children}
     </div>
+    <Player />
   </div>
 );
 

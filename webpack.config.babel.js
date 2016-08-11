@@ -24,8 +24,8 @@ export default {
     loaders: [
       {
         test: /\.css$/,
-        loader: "style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]!postcss-loader",
-        // loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=[name]__[local]${DEBUG ? '' : '-[hash:base64:4]'}!postcss`),
+        // loader: "style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]!postcss-loader",
+        loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=[name]__[local]${DEBUG ? '' : '-[hash:base64:4]'}!postcss`),
         exclude: /node_modules/
       },
       // {
@@ -52,7 +52,7 @@ export default {
       filename: 'assets.json',
       path: 'build'
     }),
-    // new ExtractTextPlugin(`[name]${DEBUG ? '' : '.[hash]'}.css`),
+    new ExtractTextPlugin(`[name]${DEBUG ? '' : '.[hash]'}.css`),
     new webpack.DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(DEBUG ? 'development' : 'production')
     }),
