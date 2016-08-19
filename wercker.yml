@@ -43,10 +43,10 @@ build:
         hostname: $REMOTE_HOST
     - script:
       name: $REMOTE_HOST
-      code: ssh root@$REMOTE_HOST "cd app && npm stop"
+      code: ssh root@$REMOTE_HOST "cd app && sudo docker-compose kill"
     - script:
       name: git pull
       code: ssh root@$REMOTE_HOST "cd app && git branch -D temp && git checkout -b temp && git branch -D master && git fetch origin master && git checkout -b master origin/master"
     - script:
       name: start
-      code: ssh root@$REMOTE_HOST "cd app && npm start"
+      code: ssh root@$REMOTE_HOST "cd app && sudo docker-compose build && npm install && sudo docker-compose up -d"

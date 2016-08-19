@@ -1,0 +1,52 @@
+version: '2'
+services:
+  # web:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile-eventials
+  #   working_dir: /usr/src/app/www/eventials
+  #   volumes:
+  #    - .:/usr/src/app
+  #   command: bash -c "python manage.py runserver 0.0.0.0:8000"
+  #   links:
+  #    - queue
+  #    - stats
+  #    - cache
+  #    - search
+  #    - events
+  #    - db
+  #   ports:
+  #    - "8000:8000"
+  #   hostname: eventials-www
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile-nodejs
+    ports:
+      - "5000:5000"
+    command: nodemon api
+    working_dir: /opt/app
+    environment:
+      NODE_PATH: /opt/node
+    volumes:
+      - ./api:/opt/app
+    links:
+      - mongo
+
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile-nginx
+    links:
+      - api
+    ports:
+        - "80:80"
+
+  mongo:
+    image: mongo:3.0.4
+    hostname: mongo
+    volumes:
+      - /data/db
+    ports:
+      - "27017:27017"
+    command: --smallfiles --rest
