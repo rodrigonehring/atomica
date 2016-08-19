@@ -1,0 +1,11 @@
+FROM node:6.3.1-wheezy
+
+# ADD package.json /tmp/package.json
+# RUN cd /tmp && npm install
+
+# RUN mkdir -p /opt/node && cp -a /tmp/node_modules /opt/node/
+
+RUN npm install -g nodemon
+
+WORKDIR /opt/www
+ADD . /opt/www

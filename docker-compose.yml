@@ -1,30 +1,26 @@
 version: '2'
 services:
-  # web:
-  #   build:
-  #     context: .
-  #     dockerfile: Dockerfile-eventials
-  #   working_dir: /usr/src/app/www/eventials
-  #   volumes:
-  #    - .:/usr/src/app
-  #   command: bash -c "python manage.py runserver 0.0.0.0:8000"
-  #   links:
-  #    - queue
-  #    - stats
-  #    - cache
-  #    - search
-  #    - events
-  #    - db
-  #   ports:
-  #    - "8000:8000"
-  #   hostname: eventials-www
+
+  web:
+    build:
+      context: ./www
+      dockerfile: Dockerfile-www
+    ports:
+      - "3000:3000"
+    command: npm start
+    working_dir: /opt/www
+    environment:
+      NODE_PATH: /opt/node
+    volumes:
+      - ./www:/opt/www
+
   api:
     build:
       context: ./api
       dockerfile: Dockerfile-nodejs
     ports:
       - "5000:5000"
-    command: nodemon api
+    command: npm start
     working_dir: /opt/app
     environment:
       NODE_PATH: /opt/node
@@ -39,6 +35,7 @@ services:
       dockerfile: Dockerfile-nginx
     links:
       - api
+      - web
     ports:
         - "80:80"
 
