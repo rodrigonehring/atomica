@@ -104,8 +104,6 @@ app.use(function(req, res, next) {
 });
 app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
-console.log(__dirname)
-
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   res.header('Access-Control-Allow-Origin', req.headers.origin);
@@ -120,7 +118,8 @@ app.use(function(req, res, next) {
 
 
 app.post('/api-v2/login', userController.postLoginApi);
-app.post('/api-v2/status', userController.statusLoginApi);
+app.get('/api-v2/status', userController.statusLoginApi);
+app.get('/api-v2/logout', userController.logoutLoginApi);
 
 /**
  * Primary app routes.

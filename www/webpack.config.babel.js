@@ -6,7 +6,7 @@ import path from 'path';
 import webpack from 'webpack';
 
 let DEBUG = process.env.NODE_ENV !== 'production';
-DEBUG = false;
+// DEBUG = false;
 
 export default {
   entry: DEBUG ? [

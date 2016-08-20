@@ -2,7 +2,7 @@
   "name": "react-starter",
   "version": "0.0.0",
   "private": true,
-  "engines" : {
+  "engines": {
     "node": "6.x"
   },
   "scripts": {
@@ -36,6 +36,7 @@
   "dependencies": {
     "assets-webpack-plugin": "3.4.0",
     "autoprefixer": "6.4.0",
+    "axios": "^0.13.1",
     "babel-core": "6.13.2",
     "babel-loader": "6.2.4",
     "babel-preset-es2015": "6.13.2",
@@ -43,12 +44,14 @@
     "babel-preset-stage-1": "6.13.0",
     "babel-register": "6.11.6",
     "compression": "1.6.2",
+    "cookie-parser": "^1.4.3",
     "css-loader": "0.23.1",
     "css-modules-require-hook": "4.0.1",
     "express": "4.14.0",
     "extract-text-webpack-plugin": "1.0.1",
     "file-loader": "0.9.0",
     "history": "3.0.0",
+    "material-ui": "^0.15.4",
     "morgan": "1.7.0",
     "postcss-loader": "0.9.1",
     "postcss-nested": "1.0.0",
@@ -57,7 +60,12 @@
     "react-helmet": "3.1.0",
     "react-redux": "4.4.5",
     "react-router": "2.6.1",
+    "react-tap-event-plugin": "^1.0.0",
     "redux": "3.5.2",
+    "redux-actions": "^0.11.0",
+    "redux-axios-middleware": "^2.0.0",
+    "redux-batched-actions": "^0.1.3",
+    "redux-thunk": "^2.1.0",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "1.13.1"

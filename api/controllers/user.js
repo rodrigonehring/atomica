@@ -7,10 +7,15 @@ const User = require('../models/User');
 
 exports.statusLoginApi = (req, res, next) => {
   if (req.isAuthenticated())
-    return res.json({status: req.user})
+    return res.json(req.user)
   else
-    return res.json({req: req.user})
+    return res.json({user: req.user})
 }
+
+exports.logoutLoginApi = (req, res) => {
+  req.logout();
+  res.json({msg: 'logout'});
+};
 
 /**
  * POST /login
@@ -22,7 +27,7 @@ exports.postLoginApi = (req, res, next) => {
   req.sanitize('email').normalizeEmail({ remove_dots: false });
 
   if (req.isAuthenticated())
-    return res.status(208).json({error: 'user_already_logged'})
+    return res.status(409).json({error: 'user_already_logged'})
 
   const errors = req.validationErrors();
 
