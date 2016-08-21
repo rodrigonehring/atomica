@@ -12,6 +12,8 @@ injectTapEventPlugin();
 import CircularProgress from 'material-ui/CircularProgress';
 
 import Auth from '../Login/login'
+import Snackbar from 'material-ui/Snackbar'
+
 
 import SidebarLeft from '../SidebarLeft/Sidebar';
 import Player from '../player/player';
@@ -28,7 +30,7 @@ const Loading = ({loading}) => {
   return null
 }
 
-export const App = ({children, loading, user, actions}) => (
+export const App = ({children, loading, user, snackbar, actions}) => (
   <MuiThemeProvider>
     <div className={style.root}>
       <Helmet titleTemplate='%s - React Starter' />
@@ -37,11 +39,18 @@ export const App = ({children, loading, user, actions}) => (
 
       <Loading loading={loading} />
 
-      <SidebarLeft />
+      <SidebarLeft user={user} actions={actions}/>
       <div className={style.content}>      	
       	{children}
       </div>
       <Player />
+       <Snackbar
+          open={snackbar.open}
+          className={style.snackbar}
+          message={snackbar.message}
+          onRequestClose={() => actions.snackClose()}
+          autoHideDuration={4000}
+        />
     </div>
   </MuiThemeProvider>
 );
@@ -52,12 +61,14 @@ App.propTypes = {
   children: PropTypes.object,
   loading: PropTypes.bool,
   user: PropTypes.object,
+  snackbar: PropTypes.object,
   actions: PropTypes.object,
 };
 
-const mapStateToProps = ({appState}) => ({
+const mapStateToProps = ({appState, auth}) => ({
   loading: appState.loading,
-  user: appState.user
+  user: auth.user,
+  snackbar: appState.snackbar
 });
 
 function mapDispatchToProps(dispatch) {

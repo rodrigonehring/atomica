@@ -1,19 +1,34 @@
 
 const initialState = {
-  news: [
-    {slug: 'oalr1', img: 'http://dummyimage.com/300x300/ccc/fff', title: 'Noticia 1' },
-    {slug: 'oalr2', img: 'http://dummyimage.com/300x300/ccc/fff', title: 'Nome da noticia' },
-    {slug: 'oalr3', img: 'http://dummyimage.com/300x300/ccc/fff', title: 'Nome da nooticia' },
-    {slug: 'oalr4', img: 'http://dummyimage.com/300x300/ccc/fff', title: 'Nome da noticia nova' }
-  ]
+  news: [],
+  current: {}
 };
 
-export default (state = initialState, {type}) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
-    case 'GET_NEWS':
-      return Object.assign({}, state, {
-        news: [{slug: 'oalr1', img: 'http://dummyimage.com/300x300/ccc/fff', title: 'Nome da noticia' },]
-      });
+    case 'POSTS_FETCH':
+      return {
+        ...state,
+        news: payload
+      }
+
+    case 'DELETE_POST_LIST':
+      return {
+        ...state,
+        news: state.news.filter(item => item._id !== payload)
+      }
+
+    case 'CURRENT_POST':
+      return {
+        ...state,
+        current: payload
+      }
+
+    case 'CLEAR_CURRENT_POST':
+      return {
+        ...state,
+        current: {}
+      }
 
     default:
       return state;

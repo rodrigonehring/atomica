@@ -4,7 +4,7 @@ import {Link} from 'react-router';
 
 const Post = ({slug, img, title}) => (
   <li>
-    <Link to={'' + slug}>
+    <Link to={'/posts/read/' + slug}>
       <span className={style.hover}>
         <img src={img} />
         <span>VER NOTÍCIA</span>
@@ -28,7 +28,7 @@ const News = ({news}) => (
         <Post
           key={item.slug}
           slug={item.slug}
-          img={item.img}
+          img={item.img || 'http://dummyimage.com/300x300/ccc/fff'}
           title={item.title}
         />
       )}

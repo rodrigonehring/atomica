@@ -29,6 +29,7 @@ export default {
         loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=[name]__[local]${DEBUG ? '' : '-[hash:base64:4]'}!postcss`),
         exclude: /node_modules/
       },
+      { test: /\.json$/, loader: 'json' },
       // {
       //   test: /\.(jpe?g|png|gif|svg)$/i,
       //   loaders: [

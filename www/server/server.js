@@ -36,6 +36,7 @@ server.use(function(req, res, next) {
 
 
 
+
 // server.use((req,res,next) => {
 // 		console.log(req.cookies['connect.sid'])
 	

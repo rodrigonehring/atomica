@@ -31,6 +31,8 @@ const homeController = require('./controllers/home');
 const userController = require('./controllers/user');
 const apiController = require('./controllers/api');
 const contactController = require('./controllers/contact');
+const postsController = require('./controllers/posts');
+
 
 /**
  * API keys and Passport configuration.
@@ -102,7 +104,7 @@ app.use(function(req, res, next) {
   }
   next();
 });
-app.use('/public', express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use( express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
@@ -117,9 +119,24 @@ app.use(function(req, res, next) {
 });
 
 
+
+/**
+ * API app routes.
+ */
 app.post('/api-v2/login', userController.postLoginApi);
 app.get('/api-v2/status', userController.statusLoginApi);
 app.get('/api-v2/logout', userController.logoutLoginApi);
+app.post('/api-v2/create-account', userController.createAccount);
+app.get('/api-v2/users', userController.listUsers);
+app.delete('/api-v2/users/remove/:id', userController.deleteUser);
+app.put('/api-v2/users/add-admin/:id', userController.addAdmin);
+app.put('/api-v2/users/remove-admin/:id', userController.removeAdmin);
+
+app.get('/api-v2/posts', postsController.listPosts);
+app.get('/api-v2/posts/read/:slug', postsController.postSlug);
+app.post('/api-v2/posts', postsController.addPost);
+app.delete('/api-v2/posts/delete/:id', postsController.deletePost);
+
 
 /**
  * Primary app routes.

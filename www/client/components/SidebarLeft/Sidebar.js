@@ -2,7 +2,7 @@ import React from 'react';
 import style from './sidebar.css';
 import {Link} from 'react-router';
 
-const Sidebar = () => (
+const Sidebar = ({user, actions}) => (
   <div className={style.sidebar}>
 
     <div className={style.logo}>
@@ -20,27 +20,40 @@ const Sidebar = () => (
         <li>
           <Link to='/chat' activeClassName="active">Chat</Link>
         </li>
-        <li>
-          <Link to='/noticias' activeClassName="active">Notícias</Link>
-        </li>
+        
+        {!user.email ?
+          <li>
+            <a onClick={actions.openLogin}>Entrar</a>
+          </li>
+        : ''}
+
+        {!user.email ?
+          <li>
+            <a onClick={actions.openCreate}>Criar Conta</a>
+          </li>
+        : ''}
+        
+        
         <li>
           <Link to='/contato' activeClassName="active">Contato</Link>
         </li>
       </ul>
     </div>
 
-    <div className={style.ad}>
-      <ul>
-        <li>
-          <img src="http://dummyimage.com/300x150/ccc/fff" />
-        </li>
-        <li>
-          <img src="http://dummyimage.com/300x150/ccc/fff" />
-        </li>
-      </ul>
-    </div>
+    
 
   </div>
 );
+
+/*<div className={style.ad}>
+  <ul>
+    <li>
+      <img src="http://dummyimage.com/300x150/ccc/fff" />
+    </li>
+    <li>
+      <img src="http://dummyimage.com/300x150/ccc/fff" />
+    </li>
+  </ul>
+</div> */
 
 export default Sidebar;

@@ -4,10 +4,14 @@ import {
 } from '../actions/types';
 
 const initialState = {
-  loading: false
+  loading: false,
+  snackbar: {
+    open: false,
+    message: ''
+  }
 };
 
-export default (state = initialState, {type}) => {
+export default (state = initialState, {type, payload}) => {
   switch (type) {
     case START_LOADING:
       return Object.assign({}, state, {
@@ -18,6 +22,24 @@ export default (state = initialState, {type}) => {
       return Object.assign({}, state, {
         loading: false
       });
+
+    case 'SNACK':
+      return {
+        ...state,
+        snackbar: {
+          open: true,
+          message: payload
+        }
+      }
+
+    case 'SNACK_CLOSE':
+      return {
+        ...state,
+        snackbar: {
+          open: false,
+          message: ''
+        }
+      }
 
     default:
       return state;

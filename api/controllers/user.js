@@ -6,10 +6,13 @@ const User = require('../models/User');
 
 
 exports.statusLoginApi = (req, res, next) => {
-  if (req.isAuthenticated())
-    return res.json(req.user)
-  else
-    return res.json({user: req.user})
+  if (req.isAuthenticated()) {
+    return res.json({user: req.user, img: req.user.gravatar()})
+  }
+    
+  else 
+    return res.end()
+  
 }
 
 exports.logoutLoginApi = (req, res) => {
@@ -17,10 +20,6 @@ exports.logoutLoginApi = (req, res) => {
   res.json({msg: 'logout'});
 };
 
-/**
- * POST /login
- * Sign in using email and password.
- */
 exports.postLoginApi = (req, res, next) => {
   req.assert('email', 'Email is not valid').isEmail();
   req.assert('password', 'Password cannot be blank').notEmpty();
@@ -42,11 +41,91 @@ exports.postLoginApi = (req, res, next) => {
     }
     req.logIn(user, (err) => {
       if (err) { return next(err); }
-      req.flash('success', { msg: 'Success! You are logged in.' });
-      res.json(user);
+      res.json({user: user, img: user.gravatar()})
     });
   })(req, res, next);
 };
+
+exports.createAccount = (req, res, next) => {
+  req.assert('email', 'Email is not valid').isEmail();
+  req.assert('password', 'Password must be at least 4 characters long').len(4);
+  req.assert('password2', 'Passwords do not match').equals(req.body.password);
+  req.sanitize('email').normalizeEmail({ remove_dots: false });
+
+  const errors = req.validationErrors();
+
+  if (errors) {
+    return res.status(400).json(errors)
+  }
+
+  const user = new User({
+    email: req.body.email,
+    password: req.body.password
+  });
+
+  User.findOne({ email: req.body.email }, (err, existingUser) => {
+    if (existingUser) {
+      return res.status(409).json({ msg: 'Account with that email address already exists.' })
+    }
+    user.save((err) => {
+      if (err) { return next(err); }
+      req.logIn(user, (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.json({user: user})
+      });
+    });
+  });
+}
+
+exports.listUsers = (req, res) => {
+  if (req.user && req.user.admin) {
+    User.find('')
+      .then(users => res.json(users))
+  } else {
+    res.status(401).json({msg: 'permission denied'})
+  }
+}
+
+exports.deleteUser = (req, res) => {
+  if (req.user._id == req.params.id)
+    return res.status(400).json({msg: 'Se deletar?'})
+  if (req.user && req.user.admin) {
+    User.findOne({_id: req.params.id}).remove()
+      .then(() => {
+        res.json({msg: 'removed'})
+      })
+  } else {
+    res.status(401).json({msg: 'permission denied'})
+  }
+}
+
+exports.addAdmin = (req, res) => {
+  if (req.user && req.user.admin) {
+    User.findOne({_id: req.params.id})
+      .then((user) => {
+        user.admin = true;
+        user.save().then(() => res.json({user: user}))
+      })
+  } else {
+    res.status(401).json({msg: 'permission denied'})
+  }
+}
+
+exports.removeAdmin = (req, res) => {
+  if (req.user._id == req.params.id)
+    return res.status(400).json({msg: 'Remover o proprio admin?'})
+  if (req.user && req.user.admin) {
+    User.findOne({_id: req.params.id})
+      .then((user) => {
+        user.admin = false;
+        user.save().then(() => res.json({user: user}))
+      })
+  } else {
+    res.status(401).json({msg: 'permission denied'})
+  }
+}
 
 
 

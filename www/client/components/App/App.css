@@ -5,8 +5,12 @@ html {
 body {
 	background: #ffc952;
 	max-height: 100vh;
-	overflow: hidden;
+	/* overflow: hidden; */
 	font-family: 'Raleway', sans-serif;
+	span[type="button"] {
+		-webkit-appearance: initial !important;
+		appearance: initial !important;
+	}
 }
 
 .root {
@@ -14,19 +18,24 @@ body {
 }
 
 .content {
-	height: calc(100vh - 115px);
-	position: absolute;
-	top: 15px;
+	/* height: calc(100vh - 115px); */
+	/* position: absolute; */
+	margin-top: 15px;
 	margin-left: 15px;
 	// border: 2px solid #1f1a17;
 	width: calc(100vw - 335px);
+	vertical-align: top; /* here */
 	display: inline-block;
+	margin-bottom: 100px;
+	background: #fff;
+	& > div {
+		padding: 15px;
+		
+	}
 }
 
 .loading {
 	position: absolute;
-	width: 100%;
-	height: 100vh;
 	z-index: 9999;
 	left: 50%;
 	top: 50%;
@@ -34,3 +43,9 @@ body {
 	/* margin-top: -50px; */
 }
 
+.snackbar > div {
+	background: rgb(255, 255, 255) !important;
+	span {
+		color: #000 !important;
+	}
+}

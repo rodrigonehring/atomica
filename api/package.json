@@ -6,7 +6,7 @@
     "url": "https://github.com/sahat/hackathon-starter.git"
   },
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon app.js --harmony",
     "test": "mocha --reporter spec --timeout 5000"
   },
   "dependencies": {
@@ -51,6 +51,7 @@
     "paypal-rest-sdk": "^1.6.9",
     "redux-axios-middleware": "^2.0.0",
     "request": "^2.73.0",
+    "slug": "^0.9.1",
     "stripe": "^4.8.0",
     "tumblr.js": "^1.1.0",
     "twilio": "^3.3.1-edge",
