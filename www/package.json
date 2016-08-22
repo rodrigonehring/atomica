@@ -10,9 +10,9 @@
     "lint": "eslint --ignore-path .gitignore .",
     "prebuild": "rm -rf build/*",
     "prestart": "npm run build",
-    "start": "NODE_ENV=production node server",
+    "start:www": "NODE_ENV=production pm2 start server -i 2",
     "stop": "sudo forever stopall",
-    "start-dev": "nodemon server -w server",
+    "dev": "nodemon server -w server",
     "test": "NODE_ENV=test mocha",
     "test-watch": "NODE_ENV=test mocha -R min -w",
     "deploy": "git add . && git commit --amend -C HEAD && git push origin master -f"
