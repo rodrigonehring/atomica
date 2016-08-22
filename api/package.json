@@ -6,7 +6,8 @@
     "url": "https://github.com/sahat/hackathon-starter.git"
   },
   "scripts": {
-    "start": "nodemon app.js --harmony",
+    "start:api": "NODE_ENV=production pm2 start app.js -i 2",
+    "dev": "nodemon app",
     "test": "mocha --reporter spec --timeout 5000"
   },
   "dependencies": {

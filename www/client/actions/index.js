@@ -8,10 +8,10 @@ import {
 import Axios from 'axios'
 import { createAction } from 'redux-actions'
 import {batchActions, enableBatching} from 'redux-batched-actions'
-import { browserHistory } from 'react-router' 
+import { browserHistory } from 'react-router'
 
 var axios = Axios.create({
-  baseURL: 'http://localhost:5000/api-v2/',
+  baseURL: 'http://127.0.0.1:5000/api-v2/',
   timeout: 1000,
   withCredentials: true,
   headers: {'Content-Type': 'application/json'},
@@ -33,7 +33,7 @@ return response;
 			}
 		})
 	}
-		
+
 
 	return Promise.reject(error);
 });
@@ -165,7 +165,7 @@ export const authLogout = () => {
 				]))
 			})
 			.catch(err => handleErrors(err, dispatch))
-			
+
 	}
 }
 

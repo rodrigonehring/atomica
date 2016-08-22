@@ -18,10 +18,8 @@ import NotFound from '../../client/components/NotFound';
 import configureStore from '../../client/configureStore';
 import routes from '../../client/routes';
 
-
 const renderApp = (renderProps) => {
   const assets = require('../../build/assets.json');
-
   const store = configureStore();
   const initialState = store.getState();
   const content = renderToString(
@@ -42,7 +40,7 @@ const renderApp = (renderProps) => {
   );
 };
 
-export default ({url, user}, res) => {
+export default ({url}, res) => {
   const location = createLocation(url);
 
   match({routes, location}, (error, redirectLocation, renderProps) => {

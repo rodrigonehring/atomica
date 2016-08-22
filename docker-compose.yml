@@ -1,6 +1,15 @@
 version: '2'
 services:
 
+  mongo:
+    image: mongo:3.0.4
+    hostname: mongo
+    volumes:
+      - /data/db
+    ports:
+      - "27017:27017"
+    command: --smallfiles --rest
+
   web:
     build:
       context: ./www
@@ -13,6 +22,8 @@ services:
       NODE_PATH: /opt/node
     volumes:
       - ./www:/opt/www
+    links:
+      - api
 
   api:
     build:
@@ -37,13 +48,6 @@ services:
       - api
       - web
     ports:
-        - "80:80"
+      - "80:80"
 
-  mongo:
-    image: mongo:3.0.4
-    hostname: mongo
-    volumes:
-      - /data/db
-    ports:
-      - "27017:27017"
-    command: --smallfiles --rest
+
