@@ -37,7 +37,7 @@ class News extends React.Component {
   }
 
   onChange = ({target}) => {
-      this.setState({
+    this.setState({
         ...this.state,
         [target.id]: target.value
       })
@@ -45,7 +45,15 @@ class News extends React.Component {
   }
 
   handleSubmit = () => {
-    this.props.actions.addPost(this.state)
+    console.log(this.refs.file)
+    const file = this.refs.file;
+    let formData = new FormData();
+
+    formData.append('image', file.files[0]);
+    formData.append('title', this.state.title);
+    formData.append('content', this.state.content);
+    this.props.actions.addPost(formData)
+    console.log(formData)
   }
 
   render() {
@@ -72,8 +80,12 @@ class News extends React.Component {
             onChange={this.onChange}
             value={this.state.content}
             fullWidth={true}
-            floatingLabelText="News" 
+            floatingLabelText="News"
          /><br />
+
+
+        <input type="file" id="imageButton" onChange={this.onChange} ref="file"></input>
+
 
          <h1>
           Preview:
@@ -86,7 +98,7 @@ class News extends React.Component {
 
 
          <RaisedButton label="Enviar" primary={true} onClick={this.handleSubmit}  />
- 
+
       </div>
     )
   }

@@ -4,6 +4,7 @@ const userSchema = new mongoose.Schema({
   slug: { type: String, unique: true },
   title: String,
   content: String,
+  image: String,
 }, { timestamps: true });
 
 

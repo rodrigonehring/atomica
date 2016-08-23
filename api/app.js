@@ -105,6 +105,7 @@ app.use(function(req, res, next) {
   next();
 });
 app.use( express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use( '/uploads', express.static(path.join(__dirname, 'uploads'), { maxAge: 31557600000 }));
 
 app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
@@ -134,7 +135,7 @@ app.put('/api-v2/users/remove-admin/:id', userController.removeAdmin);
 
 app.get('/api-v2/posts', postsController.listPosts);
 app.get('/api-v2/posts/read/:slug', postsController.postSlug);
-app.post('/api-v2/posts', postsController.addPost);
+app.post('/api-v2/posts', upload.single('image'), postsController.addPost);
 app.delete('/api-v2/posts/delete/:id', postsController.deletePost);
 
 

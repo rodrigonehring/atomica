@@ -30,10 +30,16 @@ body {
 	background: #fff;
 	& > div {
 		padding: 15px;
-		
+
 	}
 }
 
+
+@media (max-width: 990px) {
+	.content {
+		width: calc(100vw - 30px);
+	}
+}
 .loading {
 	position: absolute;
 	z-index: 9999;

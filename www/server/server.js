@@ -4,6 +4,7 @@ import morgan from 'morgan';
 import path from 'path';
 import cookieParser from 'cookie-parser'
 import Axios from 'axios'
+import proxy from 'http-proxy-middleware'
 
 var axios = Axios.create({
   baseURL: 'http://localhost:5000/api-v2/',
@@ -11,6 +12,8 @@ var axios = Axios.create({
   withCredentials: true,
   headers: {'Content-Type': 'application/json'}
 });
+
+
 
 import {
   webpackMiddleware,
@@ -36,7 +39,6 @@ server.use(function(req, res, next) {
 
 
 
-
 // server.use((req,res,next) => {
 // 		console.log(req.cookies['connect.sid'])
 
@@ -47,8 +49,10 @@ server.use(function(req, res, next) {
 // 	})
 // })
 
-if (DEBUG) {
+  server.use('/uploads', proxy({target: 'http://127.0.0.1:5000/'}));
+
   server.use(webpackMiddleware);
+if (DEBUG) {
   server.use(webpackHotMiddleware);
 }
 

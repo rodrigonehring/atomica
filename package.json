@@ -2,7 +2,7 @@
   "name": "react-starter",
   "version": "0.0.0",
   "private": true,
-  "engines" : {
+  "engines": {
     "node": "6.x"
   },
   "scripts": {
@@ -16,5 +16,8 @@
     "test-watch": "NODE_ENV=test mocha -R min -w",
     "update": "cd www && npm i && cd ../api && npm i",
     "deploy": "git add . && git commit --amend -C HEAD && git push origin master -f"
+  },
+  "devDependencies": {
+    "strip-loader": "^0.1.2"
   }
 }

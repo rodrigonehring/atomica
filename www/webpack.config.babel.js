@@ -8,6 +8,14 @@ import webpack from 'webpack';
 let DEBUG = process.env.NODE_ENV !== 'production';
 console.log('diname', __dirname)
 
+let striper = "strip-loader?strip[]=olar";
+let styler = "style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]!postcss-loader";
+
+if (!DEBUG) {
+  striper = "strip-loader?strip[]=console.log";
+  styler = ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=[name]__[local]${DEBUG ? '' : '-[hash:base64:4]'}!postcss`);
+}
+
 export default {
   entry: DEBUG ? [
     'webpack-hot-middleware/client',
@@ -25,8 +33,7 @@ export default {
     loaders: [
       {
         test: /\.css$/,
-        // loader: "style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]!postcss-loader",
-        loader: ExtractTextPlugin.extract('style', `css?modules&importLoaders=1&localIdentName=[name]__[local]${DEBUG ? '' : '-[hash:base64:4]'}!postcss`),
+        loader: styler,
         exclude: /node_modules/
       },
       { test: /\.json$/, loader: 'json' },
@@ -46,7 +53,8 @@ export default {
         test: /\.js$/,
         loader: 'babel',
         exclude: /node_modules/
-      }
+      },
+      { test: /\.js$/, loader: striper }
     ]
   },
   plugins: [

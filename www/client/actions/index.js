@@ -10,18 +10,26 @@ import { createAction } from 'redux-actions'
 import {batchActions, enableBatching} from 'redux-batched-actions'
 import { browserHistory } from 'react-router'
 
+const url = !process.env.HOME ? window.PATH : '';
+
 var axios = Axios.create({
-  baseURL: 'http://127.0.0.1:5000/api-v2/',
+  baseURL: url,
   timeout: 1000,
   withCredentials: true,
   headers: {'Content-Type': 'application/json'},
+});
+
+var axiosFile = Axios.create({
+  baseURL: url,
+  timeout: 100000,
+  withCredentials: true,
+  headers: {'Content-Type': 'multipart/form-data'},
 });
 
 axios.interceptors.response.use(function (response) {
 
 return response;
 }, function (error) {
-	console.log('chegou aqui?')
 	if (error.response.status == 401) {
 		console.log('401',error.response)
 		browserHistory.push('/')
@@ -194,7 +202,7 @@ export const getPostList = () => {
 export const addPost = (data) => {
 	return dispatch => {
 		dispatch(startLoading())
-		return axios.post('posts', data)
+		return axiosFile.post('posts', data)
 			.then(res => {
 				browserHistory.push('/admin/news')
 				dispatch(batchActions([

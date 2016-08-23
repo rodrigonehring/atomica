@@ -66,3 +66,25 @@
 		display: block;
 	}
 }
+
+@media (max-width: 990px) {
+	.sidebar {
+		text-align: center;
+		width: 100vw;
+		height: auto;
+		.logo {
+			text-align: center;
+			img {
+				display: inline-block;
+			}
+		}
+	}
+	.menu {
+		li {
+			display: inline-block;
+			a {
+				padding: 5px;
+			}
+		}
+	}
+}

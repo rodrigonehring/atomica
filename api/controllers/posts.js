@@ -4,7 +4,7 @@ const Post = require('../models/Post')
 
 
 exports.listPosts = (req, res) => {
-    Post.find('', (err, posts) => res.json(posts))
+    Post.find().sort('-createdAt').exec((err, posts) => res.json(posts))
 }
 
 exports.postSlug = (req, res) => {
@@ -20,11 +20,19 @@ exports.postSlug = (req, res) => {
 
 
 exports.addPost = (req, res) => {
+
 	if (req.user && req.user.admin) {
+        if (!req.file) {
+            return res.status(400).json({msg: 'Esqueceu da imagem?'})
+        }
+        if (!req.body.title || !req.body.content) {
+          return res.status(400).json({ msg: 'Empty title or content, fix it' })
+        }
 		const post = new Post({
 			slug: Slug(req.body.title),
 			title: req.body.title,
-			content: req.body.content
+			content: req.body.content,
+            image: req.file.filename
 		});
 
 		Post.findOne({ slug: Slug(req.body.title) }, (err, existingPost) => {
@@ -38,7 +46,7 @@ exports.addPost = (req, res) => {
 		});
 	} else {
 		return res.status(401).json({msg: 'Precisa ser admin para enviar um Post!!!!111!'})
-	}	
+	}
 }
 
 exports.deletePost = (req, res) => {

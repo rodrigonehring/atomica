@@ -28,18 +28,13 @@ const News = ({news}) => (
         <Post
           key={item.slug}
           slug={item.slug}
-          img={item.img || 'http://dummyimage.com/300x300/ccc/fff'}
+          img={item.image ? `/uploads/${item.image}` : 'http://dummyimage.com/300x300/ccc/fff'}
           title={item.title}
         />
       )}
 
   	</ul>
 
-  	<div className={style.separator}>
-  		<Link to='/news/'>
-  			Ver mais notícias
-  		</Link>
-  	</div>
 
 
 

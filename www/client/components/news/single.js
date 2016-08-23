@@ -6,7 +6,7 @@ import * as actionCreators from '../../actions'
 import { bindActionCreators } from 'redux'
 import Divider from 'material-ui/Divider';
 import ReactMarkdown from 'react-markdown';
-
+import styles from './news.css'
 
 // import style from './home.css';
 
@@ -21,18 +21,21 @@ class Single extends React.Component {
 
   render() {
     const {current} = this.props
+    let image = () => (<img src={`/uploads/${current.image}`} />)
 
     return (
-    <div>
-      <Helmet title='Post - name x?' />
+    <div className={styles.single}>
+      <Helmet title={current.title} />
       <div>
         <h1>{current.title}</h1>
       </div>
       <Divider />
-      <p>
+        {current.image ? image() : ''}
+
         <ReactMarkdown source={current.content} />
-        
-      </p>
+
+
+
     </div>)
   }
 }
