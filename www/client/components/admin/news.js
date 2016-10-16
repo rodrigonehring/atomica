@@ -1,8 +1,9 @@
 import React, {PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import * as actionCreators from '../../actions'
-import { bindActionCreators } from 'redux'
+import * as actionCreators from '../../actions';
+import * as NewsDialogAction from './NewsDialog/actions';
+import { bindActionCreators } from 'redux';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -10,7 +11,9 @@ import IconButton from 'material-ui/IconButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';
 import ContentRemove from 'material-ui/svg-icons/content/clear';
 import IconEdit from 'material-ui/svg-icons/content/create';
-import { Link } from 'react-router'
+import { Link } from 'react-router';
+
+import NewsDialog from './NewsDialog/index.js';
 
 
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
@@ -24,7 +27,7 @@ const tableStyle = {
 class News extends React.Component {
 
   componentWillMount() {
-    this.props.actions.getPostList()
+    this.props.actions.getPostList();
   }
 
   render() {
@@ -32,9 +35,16 @@ class News extends React.Component {
       <div>
         <Helmet title='News' />
 
-        <Link to="/admin/news/add">
-          <RaisedButton label="Adicionar News" icon={<ContentAdd />}  style={tableStyle}/>
-        </Link>
+
+        <RaisedButton 
+          label="Adicionar News" 
+          icon={<ContentAdd />}  
+          style={tableStyle}
+          onClick={this.props.actionsDialog.newsDialogOpen}
+        />
+
+
+        <NewsDialog addPost={this.props.actions.addPost} />
  
 
         <Table  >
@@ -81,12 +91,15 @@ News.propTypes = {
   actions: PropTypes.object,
 };
 
-const mapStateToProps = ({news}) => ({
-  news: news.news
+const mapStateToProps = ({ news, NewsDialog }) => ({
+  news: news.news,
+  NewsDialog,
 });
 
-function mapDispatchToProps(dispatch) {
-  return { actions: bindActionCreators(actionCreators, dispatch) }
-}
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actionCreators, dispatch),
+  actionsDialog: bindActionCreators(NewsDialogAction, dispatch),
+});
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(News)

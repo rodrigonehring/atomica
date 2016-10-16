@@ -8,8 +8,6 @@ import configureStore from './configureStore';
 const initialState = window.__INITIAL_STATE__;
 const store = configureStore(initialState);
 
-console.log('index',store.getState())
-
 render(
   <AppContainer>
     <Root store={store} />

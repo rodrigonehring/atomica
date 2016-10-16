@@ -32,7 +32,6 @@ class Auth extends React.Component {
   constructor(props) {
     super(props)
     props.actions.authStatus()
-    console.log(props)
     this.state = {
       email: '',
       email2: '',

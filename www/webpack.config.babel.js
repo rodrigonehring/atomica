@@ -6,7 +6,6 @@ import path from 'path';
 import webpack from 'webpack';
 
 let DEBUG = process.env.NODE_ENV !== 'production';
-console.log('diname', __dirname)
 
 let striper = "strip-loader?strip[]=olar";
 let styler = "style-loader!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]!postcss-loader";
@@ -17,6 +16,7 @@ if (!DEBUG) {
 }
 
 export default {
+  devtool: 'source-map',
   entry: DEBUG ? [
     'webpack-hot-middleware/client',
     'react-hot-loader/patch',

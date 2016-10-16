@@ -185,6 +185,7 @@ const posts_fetch = createAction('POSTS_FETCH', posts => posts);
 const addPostList = createAction('ADD_POST_LIST', post => post);
 const deletePostList = createAction('DELETE_POST_LIST', id => id);
 const currentPost = createAction('CURRENT_POST', post => post);
+const newsDialogClose = createAction('NEWS_DIALOG_CLOSE');
 export const clearCurrentPost = createAction('CLEAR_CURRENT_POST');
 
 export const getPostList = () => {
@@ -204,11 +205,11 @@ export const addPost = (data) => {
 		dispatch(startLoading())
 		return axiosFile.post('posts', data)
 			.then(res => {
-				browserHistory.push('/admin/news')
+				browserHistory.push('/admin/news');
 				dispatch(batchActions([
 					addPostList(res.data),
 					stopLoading()
-				]))
+				]));
 			})
 			.catch(err => handleErrors(err, dispatch))
 	}
@@ -221,6 +222,7 @@ export const deletePost = (id) => {
 			.then(res => {
 				dispatch(batchActions([
 					deletePostList(id),
+					newsDialogClose(),
 					stopLoading()
 				]))
 			})

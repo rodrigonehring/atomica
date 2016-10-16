@@ -2,7 +2,6 @@ import React, {PropTypes} from 'react';
 
 const DEBUG = process.env.NODE_ENV !== 'production';
 const urlApi = DEBUG ? 'http://localhost:5000/api-v2/' : 'http://163.172.175.3:5000/api-v2/';
-console.log(urlApi)
 
 const App = ({assets, content, head, initialState}) => (
   <html>

@@ -11,7 +11,6 @@ import App from './components/App';
 import Home from './components/Home';
 import AdminUsers from './components/admin/listUsers';
 import AdminNews from './components/admin/news';
-import AdminNewsAdd from './components/admin/newsAdd';
 
 import SinglePost from './components/news/single';
 
@@ -24,7 +23,6 @@ export default (
       <IndexRoute component={Home} />
       <Route component={AdminUsers} path='/admin/users' />
       <Route component={AdminNews} path='/admin/news' />
-      <Route component={AdminNewsAdd} path='/admin/news/add' />
       
       <Route component={SinglePost} path='/posts/read/:postSlug' />
 

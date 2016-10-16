@@ -1,8 +1,8 @@
 import React, {PropTypes} from 'react';
 import Helmet from 'react-helmet';
 import {connect} from 'react-redux';
-import * as actionCreators from '../../actions'
-import { bindActionCreators } from 'redux'
+import * as actionCreators from '../../actions';
+import { bindActionCreators } from 'redux';
 
 import FloatingActionButton from 'material-ui/FloatingActionButton';
 import ContentAdd from 'material-ui/svg-icons/content/add';

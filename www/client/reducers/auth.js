@@ -7,7 +7,6 @@ const initialState = {
 };
 
 export default (state = initialState, {type, payload}) => {
-  console.log(type, payload)
   switch (type) {
     case 'INSERT_USER':
       payload.user.img = payload.img
