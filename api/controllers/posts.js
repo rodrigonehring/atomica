@@ -1,6 +1,6 @@
 
 const Slug = require('slug')
-const Post = require('../models/Post')
+const Post = require('../models/Post');
 
 
 exports.listPosts = (req, res) => {
