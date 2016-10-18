@@ -12,7 +12,7 @@ const dotenv = require('dotenv');
 const MongoStore = require('connect-mongo')(session);
 const flash = require('express-flash');
 const path = require('path');
-const mongoose = require('mongoose');
+const mongoose = require('./config/db');
 const passport = require('passport');
 const expressValidator = require('express-validator');
 // const sass = require('node-sass-middleware');
@@ -44,14 +44,14 @@ const passportConfig = require('./config/passport');
  */
 const app = express();
 
-/**
- * Connect to MongoDB.
- */
-mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
-mongoose.connection.on('error', () => {
-  console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
-  process.exit(1);
-});
+// /**
+//  * Connect to MongoDB.
+//  */
+// mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+// mongoose.connection.on('error', () => {
+//   console.error('MongoDB Connection Error. Please make sure that MongoDB is running.');
+//   process.exit(1);
+// });
 
 /**
  * Express configuration.
