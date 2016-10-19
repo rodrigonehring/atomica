@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
-const db = require('../config/db');
-const Post = require('../models/Post');
+const db = require('../../config/db');
+const Post = require('../../models/Post');
 
 describe('Post Model', () => {
 

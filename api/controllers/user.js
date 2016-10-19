@@ -11,7 +11,7 @@ exports.statusLoginApi = (req, res, next) => {
   }
     
   else 
-    return res.end()
+    return res.json('not_connected');
   
 }
 
@@ -60,6 +60,7 @@ exports.createAccount = (req, res, next) => {
 
   const user = new User({
     email: req.body.email,
+    admin: true,
     password: req.body.password
   });
 
