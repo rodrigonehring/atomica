@@ -24,7 +24,6 @@
     "express-session": "^1.14.0",
     "express-validator": "^2.20.8",
     "fbgraph": "^1.2.0",
-    "jade": "^1.11.0",
     "lodash": "^4.13.1",
     "mongoose": "^4.5.4",
     "mongoose-class-wrapper": "^0.8.1",
