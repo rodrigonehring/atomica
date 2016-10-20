@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
-const User = require('../../models/User');
-const db = require('../../config/db');
+const User = require('../../src/models/User');
+const db = require('../../src/config/db');
 
 describe('User Model', () => {
   it('should create a new user', (done) => {
