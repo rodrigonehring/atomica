@@ -1,20 +1,21 @@
 /**
  * Module dependencies.
  */
-const express = require('express');
-const compression = require('compression');
-const session = require('express-session');
-const bodyParser = require('body-parser');
-const logger = require('morgan');
-const errorHandler = require('errorhandler');
-const dotenv = require('dotenv');
-const MongoStore = require('connect-mongo')(session);
-const flash = require('express-flash');
-const path = require('path');
-const mongoose = require('./config/db');
-const passport = require('passport');
-const expressValidator = require('express-validator');
-const multer = require('multer');
+import express from 'express';
+import compression from 'compression';
+import session from 'express-session';
+import bodyParser from 'body-parser';
+import logger from 'morgan';
+import errorHandler from 'errorhandler';
+import dotenv from 'dotenv';
+import path from 'path';
+import passport from 'passport';
+import expressValidator from 'express-validator';
+import multer from 'multer';
+import db from './config/db';
+import connectMongo from 'connect-mongo';
+
+const MongoStore = connectMongo(session);
 const upload = multer({ dest: path.join(__dirname, 'uploads') });
 
 /**
@@ -25,17 +26,15 @@ dotenv.load({ path: '.env' });
 /**
  * Controllers (route handlers).
  */
-
-const userController = require('./controllers/user');
-const apiController = require('./controllers/api');
-const contactController = require('./controllers/contact');
-const postsController = require('./controllers/posts');
-
+import userController from './controllers/user';
+import apiController from './controllers/api';
+import contactController from './controllers/contact';
+import postsController from './controllers/posts';
 
 /**
  * API keys and Passport configuration.
  */
-const passportConfig = require('./config/passport');
+import passportConfig from './config/passport';
 
 /**
  * Create Express server.
@@ -63,7 +62,6 @@ app.use(session({
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 app.use((req, res, next) => {
   res.locals.user = req.user;
   next();

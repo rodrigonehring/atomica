@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 const loadClass = require('mongoose-class-wrapper');
 
 const chatSchema = new mongoose.Schema({
-  message: String,
+  message: {
+    type: String,
+    required: true,
+  },
   user: {
     name: String,
     id: String,
@@ -15,7 +18,7 @@ class ChatModel {
 
   static newMessage({ message, user }) { 	
     return new this({
-      message, 
+      message,
       user: {
         name: user.name,
         id: user.id,
@@ -30,12 +33,10 @@ class ChatModel {
 
   static removeMessage(id) {
     return this.find({ _id: id})
-      .then(message => {
-        if (!message) throw('message_not_found');
-      }).remove();
+      .remove();
   }
  
 }
  
 chatSchema.plugin(loadClass, ChatModel);
-module.exports = mongoose.model('Post', chatSchema);
+module.exports = mongoose.model('Chat', chatSchema);
