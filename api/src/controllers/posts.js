@@ -53,10 +53,14 @@ exports.deletePost = (req, res) => {
   if (req.user._id == req.params.id)
     return res.status(400).json({msg: 'Se deletar?'})
   if (req.user && req.user.admin) {
-    Post.findOne({_id: req.params.id}).remove()
-      .then(() => {
-        res.json({msg: 'removed'})
-      })
+  	Post.removePost({slug: req.params.id})
+  		.then(() => {
+  			res.json({msg: 'post_removed'});
+  		})
+    // Post.findOne({_id: req.params.id}).remove()
+    //   .then(() => {
+    //     res.json({msg: 'removed'})
+    //   })
   } else {
     res.status(401).json({msg: 'permission denied'})
   }

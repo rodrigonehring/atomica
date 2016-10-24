@@ -1,11 +1,9 @@
-const chai = require('chai');
-const expect = chai.expect;
-const app = require('../../src/app');
-const request = require('supertest');
-const db = require('../../src/config/db');
-
+import chai from 'chai';
 import path from 'path';
+import request from 'supertest';
+import app from '../../src/app';
 
+const expect = chai.expect;
 const user1 = request.agent(app);
 
 describe('Post Controller', () => {
@@ -34,15 +32,17 @@ describe('Post Controller', () => {
 	  .get('/api-v2/posts/read/my-awesome-title')
 	  .expect(res => {
 	  	id = res.body._id;
+	  	expect(res.body.slug).to.be.equal('my-awesome-title');
 	  })
 	  .end(done);
 	});
 
 
-	// it('should delete post my-awesome-title', done => {
-	// 	user1
-	// 		.delete('/api-v2/delete/' + id)
-	// 		.end(done);
-	// });
+	it('should delete post my-awesome-title', done => {
+		user1
+			.delete('/api-v2/delete/' + 'my-awesome-title')
+			.expect(200)
+			.end(done);
+	});
 
 });
