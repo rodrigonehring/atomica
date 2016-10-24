@@ -37,9 +37,22 @@ import postsController from './controllers/posts';
 import passportConfig from './config/passport';
 
 /**
- * Create Express server.
+ * Create Express server + socket.io
  */
+import http from 'http';
+import socket from 'socket.io';
 const app = express();
+const server = http.createServer(app);
+const io = socket(server);
+
+io.sockets.on('connection', function (socket) {
+  console.log("New Connection");
+  io.on('connectionname',function(user){
+      console.log("Connection Name"); //If Verbose Debug
+      // clients[user.name] = socket;
+      io.sockets.emit('new user', user.name + " has joined.");
+    });
+});
 
 /**
  * Express configuration.
@@ -139,8 +152,8 @@ app.use(errorHandler());
 /**
  * Start Express server.
  */
-app.listen(app.get('port'), () => {
+server.listen(app.get('port'), () => {
   console.log('Express server listening on port %d in %s mode', app.get('port'), app.get('env'));
 });
 
-module.exports = app;
+module.exports = server;
