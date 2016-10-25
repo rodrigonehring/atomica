@@ -1,9 +1,9 @@
-** front:
+## front:
 - react
 - redux
 - webpack
 
-** backend
+## backend
 - nodejs
 - express
 - mongo
