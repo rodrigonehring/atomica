@@ -1,30 +1,27 @@
-const mongoose = require('mongoose');
-const loadClass = require('mongoose-class-wrapper');
+import mongoose from 'mongoose';
+import loadClass from 'mongoose-class-wrapper';
 
 const chatSchema = new mongoose.Schema({
-  message: {
-    type: String,
-    required: true,
-  },
-  user: {
-    name: String,
-    id: String,
-    image: String,
-  },
-}, { timestamps: true });
+  messages: Array,
+  users: Array,
+}, { timestamps: false });
+
 
 // Create new class with model methods 
 class ChatModel {
 
-  static newMessage({ message, user }) { 	
-    return new this({
-      message,
-      user: {
-        name: user.name,
-        id: user.id,
-        image: user.image,
-      }
-    }).save();
+  static newMessage(message) { 	
+    return this.find().then(chat => {
+      chat.messages.concat(message);
+      return chat.save();
+    })
+  }
+
+  static newUserOnline(user) {  
+    return this.find().then(res => {
+      res.users.concat(user);
+      return res.save()
+    })
   }
 
   static getAllMessages() {
@@ -35,7 +32,6 @@ class ChatModel {
     return this.find({ _id: id})
       .remove();
   }
- 
 }
  
 chatSchema.plugin(loadClass, ChatModel);

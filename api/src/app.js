@@ -45,14 +45,16 @@ const app = express();
 const server = http.createServer(app);
 const io = socket(server);
 
-io.sockets.on('connection', function (socket) {
+import socketController from './controllers/sockets';
+
+io.sockets.on('connect', function (socket) {
   console.log("New Connection");
-  io.on('connectionname',function(user){
-      console.log("Connection Name"); //If Verbose Debug
-      // clients[user.name] = socket;
-      io.sockets.emit('new user', user.name + " has joined.");
-    });
+  let mySockets = new socketController(socket);
+
+  mySockets.on('user', 'olar');
+  mySockets.emit('new message', 'olar');
 });
+
 
 /**
  * Express configuration.
