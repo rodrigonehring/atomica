@@ -15,8 +15,8 @@ class Sockets {
 		this.socket.emit(namespace, data);
 	}
 
-	on() {
-		return this.socket.on
+	on(namespace, cb) {
+		return this.socket.on(namespace, cb);
 	}
 
 }

@@ -1,19 +1,28 @@
 
 const Slug = require('slug')
 const Chat = require('../models/Chat');
+import Socket from './sockets';
+const socket = new Socket();
 
 
-exports.getAllMessages = (req, res) => {
-    Post.find().sort('-createdAt').exec((err, posts) => res.json(posts))
-}
+export default {
 
-
-modules.exports = {
-	getAllMessages(req, res) {
-		Chat.getAllMessages()
-		.then(res.json);
+	getMessages(req, res) {
+		Chat.getAllMessages().then(messages => {
+			res.json(messages);
+		})
 	},
-	newMessage(req, res) {
 
+	addMessages(req, res) {
+		if (!req.body.message) res.status(403).json({msg: 'empty_message'})
+		Chat.newMessage(req.body.message).then(() => {
+			res.json({msg: 'ok'});
+		});
+	},
+
+	deleteMessages(req, res) {
+		Chat.deleteAllMessages().then(() => {
+			res.json({msg: 'removed_all_messages'});
+		})
 	},
 }

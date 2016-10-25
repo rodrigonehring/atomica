@@ -30,6 +30,7 @@ import userController from './controllers/user';
 import apiController from './controllers/api';
 import contactController from './controllers/contact';
 import postsController from './controllers/posts';
+import chatController from './controllers/chat';
 
 /**
  * API keys and Passport configuration.
@@ -125,6 +126,11 @@ app.get('/api-v2/posts', postsController.listPosts);
 app.get('/api-v2/posts/read/:slug', postsController.postSlug);
 app.post('/api-v2/posts', upload.single('image'), postsController.addPost);
 app.delete('/api-v2/posts/delete/:id', postsController.deletePost);
+
+//chat
+app.get('/api-v2/chat', chatController.getMessages);
+app.post('/api-v2/chat', chatController.addMessages);
+app.delete('/api-v2/chat', chatController.deleteMessages);
 
 
 
