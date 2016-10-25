@@ -23,19 +23,19 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
  */
 dotenv.load({ path: '.env' });
 
-/**
- * Controllers (route handlers).
- */
-import userController from './controllers/user';
-import apiController from './controllers/api';
-import contactController from './controllers/contact';
-import postsController from './controllers/posts';
-import chatController from './controllers/chat';
+
 
 /**
  * API keys and Passport configuration.
  */
 import passportConfig from './config/passport';
+
+
+
+
+
+
+
 
 /**
  * Create Express server + socket.io
@@ -48,13 +48,30 @@ const io = socket(server);
 
 import socketController from './controllers/sockets';
 
+let mySocket = socketController(io);
+
+// let mySockets = new socketController(io, 'app');
+
+
 io.sockets.on('connect', function (socket) {
   console.log("New Connection");
-  let mySockets = new socketController(socket);
+  
 
-  mySockets.on('user', 'olar');
-  mySockets.emit('new message', 'olar');
+  socket.on('worked!', console.log);
 });
+  io.sockets.emit('new message', 'olar');
+
+
+console.log('devia ser segundo');
+/**
+ * Controllers (route handlers).
+ */
+import userController from './controllers/user';
+import apiController from './controllers/api';
+import contactController from './controllers/contact';
+import postsController from './controllers/posts';
+import ChatController from './controllers/chat';
+const chatController = ChatController(io.sockets);
 
 
 /**

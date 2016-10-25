@@ -1,11 +1,10 @@
-
 const Slug = require('slug')
 const Chat = require('../models/Chat');
-import Socket from './sockets';
-const socket = new Socket();
 
 
-export default {
+// console.log('socket',)
+
+const controller = sockets => ({
 
 	getMessages(req, res) {
 		Chat.getAllMessages().then(messages => {
@@ -15,7 +14,10 @@ export default {
 
 	addMessages(req, res) {
 		if (!req.body.message) res.status(403).json({msg: 'empty_message'})
-		Chat.newMessage(req.body.message).then(() => {
+		Chat.newMessage(req.body.message, req.user).then(obj => {
+			// io.sockets.on('connect', () => {
+			// 	sockets.emit('new message', 'olar');
+			// });
 			res.json({msg: 'ok'});
 		});
 	},
@@ -25,4 +27,7 @@ export default {
 			res.json({msg: 'removed_all_messages'});
 		})
 	},
-}
+
+})
+
+export default controller;
