@@ -32,11 +32,6 @@ import passportConfig from './config/passport';
 
 
 
-
-
-
-
-
 /**
  * Create Express server + socket.io
  */
@@ -46,23 +41,11 @@ const app = express();
 const server = http.createServer(app);
 const io = socket(server);
 
-import socketController from './controllers/sockets';
-
-let mySocket = socketController(io);
-
-// let mySockets = new socketController(io, 'app');
-
-
 io.sockets.on('connect', function (socket) {
   console.log("New Connection");
-  
-
   socket.on('worked!', console.log);
 });
-  io.sockets.emit('new message', 'olar');
 
-
-console.log('devia ser segundo');
 /**
  * Controllers (route handlers).
  */
@@ -80,7 +63,11 @@ const chatController = ChatController(io.sockets);
 app.set('port', process.env.PORT || 5000);
 app.set('views', path.join(__dirname, 'views'));
 app.use(compression());
-app.use(logger('dev'));
+
+if (process.env.NODE_ENV !== 'test') {
+  app.use(logger('dev'));
+}
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator());
@@ -146,8 +133,9 @@ app.delete('/api-v2/posts/delete/:id', postsController.deletePost);
 
 //chat
 app.get('/api-v2/chat', chatController.getMessages);
-app.post('/api-v2/chat', chatController.addMessages);
+app.post('/api-v2/chat', chatController.addMessage);
 app.delete('/api-v2/chat', chatController.deleteMessages);
+app.delete('/api-v2/chat/:id', chatController.deleteMessage);
 
 
 

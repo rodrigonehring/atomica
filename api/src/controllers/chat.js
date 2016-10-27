@@ -12,19 +12,28 @@ const controller = sockets => ({
 		})
 	},
 
-	addMessages(req, res) {
-		if (!req.body.message) res.status(403).json({msg: 'empty_message'})
+	addMessage(req, res) {
+		if (!req.body.message) 
+			res.status(403).json({msg: 'empty_message'});
+
 		Chat.newMessage(req.body.message, req.user).then(obj => {
-			// io.sockets.on('connect', () => {
-			// 	sockets.emit('new message', 'olar');
-			// });
+			sockets.emit('new_message', obj);
 			res.json({msg: 'ok'});
 		});
 	},
 
 	deleteMessages(req, res) {
 		Chat.deleteAllMessages().then(() => {
+			sockets.emit('removed_all_messages');
 			res.json({msg: 'removed_all_messages'});
+		})
+	},
+
+	deleteMessage(req, res) {
+		let id = req.params.id;
+		Chat.deleteMessage(id).then(() => {
+			sockets.emit('removed_message', id);
+			res.json({msg: 'removed_message'});
 		})
 	},
 

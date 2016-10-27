@@ -25,7 +25,7 @@ class ChatModel {
         email: user.email,
       },
       type,
-    }).save((err, obj) => obj);
+    }).save();
   }
 
   static newUserOnline({ email, id,  }) {  
@@ -47,8 +47,8 @@ class ChatModel {
     return this.remove({})
   }
 
-  static removeMessage(id) {
-    return this.remove({ _id: id});
+  static deleteMessage(id) {
+    return this.remove({ _id: id})
   }
 }
  
