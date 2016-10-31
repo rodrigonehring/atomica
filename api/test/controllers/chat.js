@@ -1,5 +1,4 @@
-const chai = require('chai');
-const expect = chai.expect;
+import test from 'ava';
 const app = require('../../src/app');
 const request = require('supertest');
 
@@ -14,160 +13,131 @@ var options ={
   'force new connection': true
 };
 
+test.before(t => user1
+  .post('/api-v2/login')
+  .send({ email: 'admin@test.com', password: '123456' })
+  .then(function(res) {
+    t.is(res.body.user.email, 'admin@test.com');
+    // t.pass();
+  })
+);
+
+test('status online', t => user1
+  .get('/api-v2/status')
+  .then(function(res) {
+    t.is(res.body.user.email, 'admin@test.com');
+  })
+);
 
 
-  
-
-
-describe('Chat Controller', () => {
-  let id;
-
-
-  it('should login', done => {
-    user1
-      .post('/api-v2/login')
-      .send({ email: 'admin@test.com', password: '123456' })
-      .end(done);
-  });
-
-
-  it('add message and receive via sockets', function(done) {
-    const client = io.connect(socketURL, options);
-    client.on('connect', function(message) {
-      user1
-        .post('/api-v2/chat')
-        .send({
-          message: 'olar!!',
-        })
-        .expect(function(res) {
-          expect(res.body.msg).to.be.equal('ok');
-        }).end();
-
-      client.on('new_message',function(message) {
-        expect(message).to.be.a('object');
-        id = message._id;
-        expect(message.message).to.be.equal('olar!!');
-        client.disconnect();
-        done(); 
-      });
-
-    }); // on connect
-  });
-
-  it('add message and receive via sockets', function(done) {
-    const client = io.connect(socketURL, options);
-    client.on('connect', function(message) {
-      user1
-        .post('/api-v2/chat')
-        .send({
-          message: 'olar!!',
-        })
-        .expect(function(res) {
-          expect(res.body.msg).to.be.equal('ok');
-        }).end();
-
-      client.on('new_message',function(message) {
-        expect(message).to.be.a('object');
-        id = message._id;
-        expect(message.message).to.be.equal('olar!!');
-        client.disconnect();
-        done(); 
-      });
-
-    }); // on connect
-  });
-
-  it('add message and receive via sockets', function(done) {
-    const client = io.connect(socketURL, options);
-    client.on('connect', function(message) {
-      user1
-        .post('/api-v2/chat')
-        .send({
-          message: 'olar!!',
-        })
-        .expect(function(res) {
-          expect(res.body.msg).to.be.equal('ok');
-        }).end();
-
-      client.on('new_message',function(message) {
-        expect(message).to.be.a('object');
-        id = message._id;
-        expect(message.message).to.be.equal('olar!!');
-        client.disconnect();
-        done(); 
-      });
-
-    }); // on connect
-  });
-
-  it('list messages', function(done) {
-    user1
-      .get('/api-v2/chat')
-      .expect(function(res) {
-        expect(res.body.length).to.be.least(3);
-        done();
-      }).end();
-  });
-
-  it('delete single message', function(done) {
+test('add message and receive via sockets', t => {
     const client = io.connect(socketURL, options);
 
-    client.on('connect', function(message) {
-      user1
-        .delete('/api-v2/chat/' + id)
-        .expect(function(res) {
-          expect(res.body.msg).to.be.equal('removed_message');
-        })
-        .end();
+    return new Promise((resolve, reject) => {
+        client.on('connect', message => {
+            user1
+              .post('/api-v2/chat')
+              .send({
+                message: 'olar!!',
+              }).then();
 
-      client.on('removed_message', res => {
-        expect(res).to.be.equal(id);
-        done();
-      });
-
-    }); // on connect
-
-  });
-
-  it('delete all messages', function(done) {
-    const client = io.connect(socketURL, options);
-    client.on('connect', function(message) {
-      user1
-        .delete('/api-v2/chat')
-        .end(function(res) {
-          expect(res.body.msg).to.be.equal('removed_all_messages');
-        });
-
-        client.on('removed_all_messages', function() {
-          client.disconnect();
-          done();
-        });
-    }); // on connect
-  });
-
-  // it('list messages empty after deletion', function(done) {
-  //   user1
-  //     .get('/api-v2/chat')
-  //     .expect(function(res) {
-  //       expect(res.body.length).to.be.equal(0);
-  //       done();
-  //     }).end();
-  // });
-
-  // it('list messages empty', function(done) {
-  //   user1
-  //     .get('/api-v2/chat')
-  //     .expect(function(res) {
-  //       expect(res.body.length).to.be.equal(0);
-  //     })
-  //     .expect(200, done);
-  // });
-
-
-
-
-
+            client.on('new_message', res => {
+                t.is(res.message, 'olar!!');
+                client.disconnect();
+                resolve();
+            });
+        }); // on connect
+    });
 });
 
 
 
+test('list messages - not empty!', t => {
+  user1
+    .post('/api-v2/chat')
+    .send({
+      message: 'olar!!',
+    }).then(() => {
+      user1
+        .get('/api-v2/chat')
+        .then(({ body }) => {
+            if (body.length !== 0)
+                t.pass(body);
+            else t.fail('empty!')
+        })
+    });
+});
+
+test('delete single message', t => {
+    return new Promise((resolve, reject) => {
+        const client = io.connect(socketURL, options);
+        let id;
+        client.on('connect', message => {
+
+            user1
+              .post('/api-v2/chat')
+              .send({
+                message: 'olar!!',
+              }).then(res => {
+                id = res.body;
+                user1
+                    .delete('/api-v2/chat/' + id)
+                    .then(({ body }) => {
+                        if (body !== 'removed_message')
+                            reject('wrong');
+                    });
+              });
+
+            client.on('removed_message', res => {
+                t.is(res, id);
+                client.disconnect();
+                resolve();
+            });
+        }); // on connect
+    });
+});
+
+
+// test('delete all messages', t => {
+//     return new Promise((resolve, reject) => {
+//         const client = io.connect(socketURL, options);
+//         client.on('connect', message => {
+
+//             user1
+//               .post('/api-v2/chat')
+//               .send({
+//                 message: 'olar!!',
+//               }).then(() => {
+//                 user1
+//                   .post('/api-v2/chat')
+//                   .send({
+//                     message: 'olasadsar!!',
+//                   }).then(() => {
+//                     user1
+//                       .post('/api-v2/chat')
+//                       .send({
+//                         message: 'oladsadsar!!',
+//                       }).then(() => {
+//                         user1
+//                           .get('/api-v2/chat')
+//                           .then(({ body }) => {
+//                               if (body.length < 3)
+//                                 reject('menor que 3');
+//                               user1
+//                                 .delete('/api-v2/chat')
+//                                 .then(function(res) {
+//                                   if (res !== 'removed_all_messages')
+//                                     reject('!removed_all_messages');
+//                                 });
+//                           });
+//                       });
+//                   });
+//               });
+            
+//             client.on('removed_all_messages', res => {
+//                 client.disconnect();
+//                 resolve();
+//             });
+//         }); // on connect
+//     });
+// });

@@ -7,7 +7,8 @@
   },
   "scripts": {
     "start": "nodemon src/app.js --exec babel-node --presets es2015",
-    "test": "cross-env NODE_ENV=test mocha --require babel-core/register 'test/**/*.js' --reporter spec --timeout 5000",
+    "test:ava": "./node_modules/.bin/ava --verbose",
+    "test": "cross-env NODE_ENV=test mocha --require babel-core/register 'test/**/*.js' --reporter spec --timeout 5000 && ava",
     "build": "babel src -d dist --presets es2015",
     "serve": "node dist/app.js"
   },
@@ -39,6 +40,8 @@
     "validator": "^5.4.0"
   },
   "devDependencies": {
+    "ava": "^0.16.0",
+    "ava-http": "^0.2.1",
     "babel-cli": "^6.16.0",
     "babel-core": "^6.17.0",
     "babel-preset-es2015": "^6.16.0",
@@ -49,5 +52,14 @@
   "engines": {
     "node": "6.1.0"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "ava": {
+    "files": [
+      "test/controllers/chat.js"
+    ],
+    "require": [
+      "babel-register"
+    ],
+    "babel": "inherit"
+  }
 }

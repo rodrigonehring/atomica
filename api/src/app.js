@@ -12,7 +12,8 @@ import path from 'path';
 import passport from 'passport';
 import expressValidator from 'express-validator';
 import multer from 'multer';
-import db from './config/db';
+// import db from './config/db';
+import mongoose from 'mongoose';
 import connectMongo from 'connect-mongo';
 
 const MongoStore = connectMongo(session);
@@ -21,9 +22,17 @@ const upload = multer({ dest: path.join(__dirname, 'uploads') });
 /**
  * Load environment variables from .env file, where API keys and passwords are configured.
  */
-dotenv.load({ path: '.env' });
 
+dotenv.load({ path: path.resolve(__dirname, '../.env') });
 
+/**
+ * Connect to MongoDB.
+ */
+mongoose.connect(process.env.MONGODB_URI || process.env.MONGOLAB_URI);
+mongoose.connection.on('error', () => {
+  console.error('MongoDB Connection Error. Please make sure that MongoDB is running. db.js');
+  process.exit(1);
+});
 
 /**
  * API keys and Passport configuration.

@@ -18,7 +18,7 @@ const controller = sockets => ({
 
 		Chat.newMessage(req.body.message, req.user).then(obj => {
 			sockets.emit('new_message', obj);
-			res.json({msg: 'ok'});
+			res.json(obj._id);
 		});
 	},
 
@@ -31,6 +31,10 @@ const controller = sockets => ({
 
 	deleteMessage(req, res) {
 		let id = req.params.id;
+
+		if (id == 'undefined')
+			res.status(403).end();
+
 		Chat.deleteMessage(id).then(() => {
 			sockets.emit('removed_message', id);
 			res.json({msg: 'removed_message'});
