@@ -41,8 +41,6 @@ return response;
 			}
 		})
 	}
-
-
 	return Promise.reject(error);
 });
 

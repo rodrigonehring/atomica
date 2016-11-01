@@ -11,6 +11,7 @@ import App from './components/App';
 import Home from './components/Home';
 import AdminUsers from './components/admin/listUsers';
 import AdminNews from './components/admin/news';
+import Chat from './components/chat';
 
 import SinglePost from './components/news/single';
 
@@ -25,6 +26,7 @@ export default (
       <Route component={AdminNews} path='/admin/news' />
       
       <Route component={SinglePost} path='/posts/read/:postSlug' />
+      <Route component={Chat} path='/chat' />
 
 
       <Route component={NotFound} isNotFound path='*' />
