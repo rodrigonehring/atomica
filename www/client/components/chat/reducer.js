@@ -13,13 +13,20 @@ const initialState = {
 };
 
 export default (state = initialState, {type, payload}) => {
-  console.log(type);
+  console.log(type, payload);
   switch (type) {
 
     case 'GET_MESSAGES_SUCCESS': {
       return {
         ...state,
         messages: payload,
+      }
+    }
+
+    case 'NEW_MESSAGE': {
+      return {
+        ...state,
+        messages: [].concat(payload, state.messages)
       }
     }
 

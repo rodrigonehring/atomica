@@ -17,7 +17,10 @@ const controller = sockets => ({
 			res.status(403).json({msg: 'empty_message'});
 
 		Chat.newMessage(req.body.message, req.user).then(obj => {
-			sockets.emit('new_message', obj);
+			sockets.emit('action', {
+				type: 'NEW_MESSAGE',
+				data: obj,
+			});
 			res.json(obj._id);
 		});
 	},
@@ -25,6 +28,9 @@ const controller = sockets => ({
 	deleteMessages(req, res) {
 		Chat.deleteAllMessages().then(() => {
 			sockets.emit('removed_all_messages');
+			sockets.emit('action', {
+				type: 'REMOVED_ALL_MESSAGES',
+			});
 			res.json({msg: 'removed_all_messages'});
 		})
 	},

@@ -23,7 +23,7 @@ export default class extends Component {
 	clear() {
 		this.setState({
 			btnActive: false,
-			message: false,
+			message: '',
 		});
 	}
 

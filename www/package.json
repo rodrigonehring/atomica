@@ -8,7 +8,7 @@
   "scripts": {
     "build": "webpack -c --progress",
     "lint": "eslint --ignore-path .gitignore .",
-    "prebuild": "rm -rf build/*",
+    "prebuild": "rimraf build",
     "prestart": "npm run build",
     "start:www": "NODE_ENV=production pm2 start server -i 2",
     "stop": "sudo forever stopall",
@@ -74,6 +74,8 @@
     "redux-batched-actions": "^0.1.3",
     "redux-saga": "^0.12.1",
     "redux-thunk": "^2.1.0",
+    "socket.io-client": "^1.5.1",
+    "socket.io-redux": "^1.0.2",
     "style-loader": "0.13.1",
     "url-loader": "0.5.7",
     "webpack": "1.13.1"
