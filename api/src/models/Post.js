@@ -49,8 +49,8 @@ class PostModel {
 			});
 	}
 
-	static removePost({ slug }) {
-		return this.findOne({ slug })
+	static removePost({ id }) {
+		return this.findOne({ _id: id })
 			.remove();
 	}
  

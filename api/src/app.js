@@ -106,7 +106,8 @@ app.use(function(req, res, next) {
   }
   next();
 });
-app.use( express.static(path.join(__dirname, 'public'), { maxAge: 31557600000 }));
+app.use( express.static(path.join(__dirname, '../public'), { maxAge: 31557600000 }));
+app.use( express.static(path.join(__dirname, '../public/react'), { maxAge: 31557600000 }));
 app.use( '/uploads', express.static(path.join(__dirname, 'uploads'), { maxAge: 31557600000 }));
 
 app.use(function(req, res, next) {
@@ -146,7 +147,15 @@ app.post('/api-v2/chat', chatController.addMessage);
 app.delete('/api-v2/chat', chatController.deleteMessages);
 app.delete('/api-v2/chat/:id', chatController.deleteMessage);
 
+app.get('/', (req, res) => {
+  const index = path.resolve(__dirname,'../public/react/index.html');
+  res.sendFile(index);
+});
 
+app.get('/chat', (req, res) => {
+  const index = path.resolve(__dirname,'../public/react/index.html');
+  res.sendFile(index);
+});
 
 app.get('/account/unlink/:provider', passportConfig.isAuthenticated, userController.getOauthUnlink);
 

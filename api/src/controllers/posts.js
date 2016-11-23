@@ -50,10 +50,8 @@ exports.addPost = (req, res) => {
 }
 
 exports.deletePost = (req, res) => {
-  if (req.user._id == req.params.id)
-    return res.status(400).json({msg: 'Se deletar?'})
   if (req.user && req.user.admin) {
-  	Post.removePost({slug: req.params.id})
+  	Post.removePost({id: req.params.id})
   		.then(() => {
   			res.json({msg: 'post_removed'});
   		})

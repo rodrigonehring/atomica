@@ -16,7 +16,7 @@ const controller = sockets => ({
 		if (!req.body.message) 
 			res.status(403).json({msg: 'empty_message'});
 
-		Chat.newMessage(req.body.message, req.user).then(obj => {
+		Chat.newMessage(req.body.message, req.user, req.body.type).then(obj => {
 			sockets.emit('action', {
 				type: 'NEW_MESSAGE',
 				data: obj,
@@ -27,7 +27,6 @@ const controller = sockets => ({
 
 	deleteMessages(req, res) {
 		Chat.deleteAllMessages().then(() => {
-			sockets.emit('removed_all_messages');
 			sockets.emit('action', {
 				type: 'REMOVED_ALL_MESSAGES',
 			});
@@ -36,7 +35,10 @@ const controller = sockets => ({
 	},
 
 	deleteMessage(req, res) {
-		let id = req.params.id;
+		if (!req.user || !req.user.admin)
+			return res.status(403).json({msg: 'not_authorized'});
+
+		const id = req.params.id;
 
 		if (id == 'undefined')
 			res.status(403).end();
